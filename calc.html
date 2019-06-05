@@ -35,6 +35,219 @@
     Author: TemplateMag.com
     License: https://templatemag.com/license/
   ======================================================= -->
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="site-header clearfix">
+                <div class="col-lg-3 col-md-3 col-sm-12 title-area">
+                    <div class="site-title" id="title">
+                        <a href="index.html" title="">
+                            <h4>DG<span>Service</span></h4>
+                        </a>
+                    </div>
+                </div>
+                <!-- title area -->
+                <div class="col-lg-9 col-md-12 col-sm-12">
+                    <div id="nav" class="right">
+                        <div class="container clearfix">
+                            <ul id="jetmenu" class="jetmenu blue">
+                                <li><a href="index.html">Home</a>
+                                </li>
+                                <li><a href="ranks.html">RANKS</a>
+                                </li>
+                                <li><a href="leeching.html">LEECHING</a>
+                                </li>
+                                <li><a href="rules.html">RULES</a>
+                                </li>
+                                <li><a href="prices.html">PRICES</a>
+                                </li>
+                                <li>
+                                    <a href="dxp.html">DXP</a>
+                                </li>
+                                <li><a
+                                        href="https://docs.google.com/forms/d/e/1FAIpQLSc8CYeGCUwZVYhaga0NNt7IHTYve4rGHlJHhuH0LwqebJkoWA/viewform">APPLY</a>
+                                </li>
+                                <li class="active"><a href="calc.html">CALC</a> </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- nav -->
+                </div>
+                <!-- title area -->
+            </div>
+            <!-- site header -->
+        </div>
+        <!-- end container -->
+    </header>
+    <!-- end header -->
+
+    <section id="intro">
+        <div class="container">
+            <div class="ror">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1>DG Service</h1>
+                    <p>THE #1 FC FOR ALL YOUR DUNGEONEERING NEEDS!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section1">
+        <div class="container clearfix">
+            <center>
+                <h1>Calculator</h1>
+                <p>The calculated price is an estimate. <b>Never</b> pay this amount in full to anyone - always pay per
+                    floor!</p>
+                <form id="calcForm">
+                    <div class="form-group row">
+                        <label for="textboxStart" class="col-sm-2 col-form-label">Starting level or XP</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="textboxStart"
+                                placeholder="Starting level or XP">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="textboxEnd" class="col-sm-2 col-form-label">Target level</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="textboxEnd" placeholder="Target level">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="goalTypeSelect" class="col-sm-2 col-form-label">Goal type</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="goalTypeSelect" onchange="setDropDownText()">
+                                <option value="level">Level</option>
+                                <option value="tokensGained">Tokens gained</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="amountbxp" class="col-sm-2 col-form-label">Bonus XP</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="amountbxp" placeholder="Bonus XP" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">XP Cards</div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cardedaba">
+                                <label class="form-check-label" for="cardedaba">
+                                    2.5x abandoned 2
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cardedocc">
+                                <label class="form-check-label" for="cardedocc">
+                                    2.5x occult
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cardedwarp">
+                                <label class="form-check-label" for="cardedwarp">
+                                    2.5x warped
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <select id="cardedTypeSelect">
+                                    <option value="1leech">1 leech</option>
+                                    <option value="2leech" selected>2-3 leeches</option>
+                                </select>
+                                <div class="test"> ?
+                                    <span class="tooltiptext">Select 2-3 leeches if you only plan on buying carded
+                                        floors with someone
+                                        else for the reduced price. Select 1 leech if you plan on buying carded floors
+                                        solo for double the price.</span>
+                                </div><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-2">Other bonuses</div>
+                        <div class="col-sm-10">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="dxp">
+                                <label class="form-check-label" for="dxp">
+                                    Double XP weekend?
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="outfit">
+                                <label class="form-check-label" for="outfit">
+                                    Warped Gorajan trailblazer outfit?
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <button type="submit">Calculate</button>
+                    </div>
+                </form>
+                <p id="text1"> </p>
+                <p id="ol1"> </p>
+                <p id="text2"> </p>
+                <p id="ol5"> </p>
+                <p id="ol3"> </p>
+                <p id="ol4"> </p>
+                <strong>
+                    <p id="ol6"> </p>
+                </strong>
+                <strong>
+                    <p id="ol7"> </p>
+                </strong>
+                <p id="o18"> </p>
+            </center>
+        </div>
+
+        <!-- end container -->
+    </section>
+    <!-- end section 1 -->
+
+
+    <div class="copyrights">
+        <div class="container">
+            <div class="col-lg-12 col-md-12 col-sm-12 columns footer-left">
+                <p>Copyright © 2019 DG Service - All rights reserved.</p>
+                <div class="credits">
+                    <!--
+              You are NOT allowed to delete the credit link to TemplateMag with free version.
+              You can delete the credit link only if you bought the pro version.
+              Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/maxibiz-bootstrap-business-template/
+              Licensing information: https://templatemag.com/license/
+            -->
+                    Created with MaxiBiz template by <a href="https://templatemag.com/">TemplateMag</a>
+                </div>
+            </div>
+            <!-- end widget -->
+
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end copyrights -->
+    </footer>
+    <!-- end footer -->
+    <div class="dmtop">Scroll to Top</div>
+
+    <!-- JavaScript Libraries -->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/php-mail-form/validate.js"></script>
+    <script src="lib/prettyphoto/js/prettyphoto.js"></script>
+    <script src="lib/isotope/isotope.min.js"></script>
+    <script src="lib/hover/hoverdir.js"></script>
+    <script src="lib/hover/hoverex.min.js"></script>
+    <script src="lib/unveil-effects/unveil-effects.js"></script>
+    <script src="lib/owl-carousel/owl-carousel.js"></script>
+    <script src="lib/jetmenu/jetmenu.js"></script>
+    <script src="lib/animate-enhanced/animate-enhanced.min.js"></script>
+    <script src="lib/jigowatt/jigowatt.js"></script>
+    <script src="lib/easypiechart/easypiechart.min.js"></script>
+
+    <!-- Template Main Javascript File -->
+    <script src="js/main.js"></script>
+
     <script>
         //19/Aug/2017 - calc for dg xp by Jaguaro
         var LevelXP = [
@@ -362,182 +575,21 @@
             document.getElementById("text2").innerHTML = "<b>Total price:</b>";
 
         }
+
         function setDropDownText() {
             if (document.getElementById("goalTypeSelect").value == "level") {
-                document.getElementById("dropDownText").innerHTML = "End goal (level): ";
+                document.querySelector("label[for='textboxEnd']").innerHTML = document.querySelector("#textboxEnd").placeholder = "Target level";
             }
 
             else if (document.getElementById("goalTypeSelect").value == "tokensGained") {
-                document.getElementById("dropDownText").innerHTML = "Tokens gained: ";
+                document.querySelector("label[for='textboxEnd']").innerHTML = document.querySelector("#textboxEnd").placeholder= "Desired tokens gained";
             }
         }
+
+        $(() => {
+            document.querySelector("#calcForm").addEventListener("submit", e => { e.preventDefault(); Calcu(); });
+        });
     </script>
-</head>
-
-<body>
-    <header class="header">
-        <div class="container">
-            <div class="site-header clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-12 title-area">
-                    <div class="site-title" id="title">
-                        <a href="index.html" title="">
-                            <h4>DG<span>Service</span></h4>
-                        </a>
-                    </div>
-                </div>
-                <!-- title area -->
-                <div class="col-lg-9 col-md-12 col-sm-12">
-                    <div id="nav" class="right">
-                        <div class="container clearfix">
-                            <ul id="jetmenu" class="jetmenu blue">
-                                <li><a href="index.html">Home</a>
-                                </li>
-                                <li><a href="ranks.html">RANKS</a>
-                                </li>
-                                <li><a href="leeching.html">LEECHING</a>
-                                </li>
-                                <li><a href="rules.html">RULES</a>
-                                </li>
-                                <li><a href="prices.html">PRICES</a>
-                                </li>
-                                <li>
-                                    <a href="dxp.html">DXP</a>
-                                </li>
-                                <li><a
-                                        href="https://docs.google.com/forms/d/e/1FAIpQLSc8CYeGCUwZVYhaga0NNt7IHTYve4rGHlJHhuH0LwqebJkoWA/viewform">APPLY</a>
-                                </li>
-                                <li class="active"><a href="calc.html">CALC</a> </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- nav -->
-                </div>
-                <!-- title area -->
-            </div>
-            <!-- site header -->
-        </div>
-        <!-- end container -->
-    </header>
-    <!-- end header -->
-
-    <section id="intro">
-        <div class="container">
-            <div class="ror">
-                <div class="col-md-8 col-md-offset-2">
-                    <h1>DG Service</h1>
-                    <p>THE #1 FC FOR ALL YOUR DUNGEONEERING NEEDS!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section1">
-        <div class="container clearfix">
-            <center>
-                <h1>Calculator</h1>
-                <p>The calculated price is an estimate. <b>Never</b> pay this amount in full to anyone - always pay per
-                    floor!</p>
-                <form>
-
-                    Start (lvl/xp): <br /><br />
-                    <input type="text" size="20" id="textboxStart"
-                        onkeydown="if (event.keyCode == 13)  document.getElementById('buttonCalc').click()" />
-                    <input type="text" style="display: none;" />
-                    <br />
-
-                    <p id="dropDownText">End goal (level): </p>
-                    <input type="text" size="20" id="textboxEnd"
-                        onkeydown="if (event.keyCode == 13)  document.getElementById('buttonCalc').click()" />
-                    <input type="text" style="display: none;" />
-
-                    <br /><br>
-
-                    Goal type: <br /><br />
-                    <select id="goalTypeSelect" onchange="setDropDownText()">
-                        <option value="level">Level</option>
-                        <option value="tokensGained">Tokens gained</option>
-                    </select><br><br>
-                    <input type="checkbox" name="cardedaba" id="cardedaba">2.5x aba
-                    <input type="checkbox" name="cardedocc" id="cardedocc">2.5x occ
-                    <input type="checkbox" name="cardedwarp" id="cardedwarp">2.5x warp
-                    <select id="cardedTypeSelect">
-                        <option value="1leech">1 Leech</option>
-                        <option value="2leech">2-3 Leech</option>
-                    </select>
-                    <div class="test"> ?
-                        <span class="tooltiptext">Select 2-3 Leech if you only plan on buying carded floors with someone
-                            else for the reduced price</span>
-                    </div><br>
-                    <input type="checkbox" name="dxp" id="dxp">Double XP Weekend
-                    <input type="checkbox" name="outfit" id="outfit">Warped outfit<br><br>
-                    <input type="text" name="amountbxp" id="amountbxp" value="0"> Bonus XP<br><br>
-
-                    <button type="button" id="buttonCalc" onclick="Calcu()">Calculate</button>
-
-                </form>
-                <p id="text1"> </p>
-                <p id="ol1"> </p>
-                <p id="text2"> </p>
-                <p id="ol5"> </p>
-                <p id="ol3"> </p>
-                <p id="ol4"> </p>
-                <strong>
-                    <p id="ol6"> </p>
-                </strong>
-                <strong>
-                    <p id="ol7"> </p>
-                </strong>
-                <p id="o18"> </p>
-            </center>
-        </div>
-
-        <!-- end container -->
-    </section>
-    <!-- end section 1 -->
-
-
-    <div class="copyrights">
-        <div class="container">
-            <div class="col-lg-12 col-md-12 col-sm-12 columns footer-left">
-                <p>Copyright © 2019 DG Service - All rights reserved.</p>
-                <div class="credits">
-                    <!--
-              You are NOT allowed to delete the credit link to TemplateMag with free version.
-              You can delete the credit link only if you bought the pro version.
-              Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/maxibiz-bootstrap-business-template/
-              Licensing information: https://templatemag.com/license/
-            -->
-                    Created with MaxiBiz template by <a href="https://templatemag.com/">TemplateMag</a>
-                </div>
-            </div>
-            <!-- end widget -->
-
-        </div>
-        <!-- end container -->
-    </div>
-    <!-- end copyrights -->
-    </footer>
-    <!-- end footer -->
-    <div class="dmtop">Scroll to Top</div>
-
-    <!-- JavaScript Libraries -->
-    <script src="lib/jquery/jquery.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="lib/php-mail-form/validate.js"></script>
-    <script src="lib/prettyphoto/js/prettyphoto.js"></script>
-    <script src="lib/isotope/isotope.min.js"></script>
-    <script src="lib/hover/hoverdir.js"></script>
-    <script src="lib/hover/hoverex.min.js"></script>
-    <script src="lib/unveil-effects/unveil-effects.js"></script>
-    <script src="lib/owl-carousel/owl-carousel.js"></script>
-    <script src="lib/jetmenu/jetmenu.js"></script>
-    <script src="lib/animate-enhanced/animate-enhanced.min.js"></script>
-    <script src="lib/jigowatt/jigowatt.js"></script>
-    <script src="lib/easypiechart/easypiechart.min.js"></script>
-
-    <!-- Template Main Javascript File -->
-    <script src="js/main.js"></script>
-
 </body>
 
 </html>
