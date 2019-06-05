@@ -131,7 +131,7 @@ a.remove {
   border-width: 1px
 }
 
-p, pre, ul, ol, dl, dd, blockquote, address, table, fieldset, form, {
+p, pre, ul, ol, dl, dd, blockquote, address, table, fieldset, form {
   margin-bottom: 20px;
 }
 
@@ -184,7 +184,6 @@ dl dd {
 section::before, section::after {
   position: absolute;
   content: '';
-  pointer-post-wraps: none;
 }
 
 .first {
@@ -320,12 +319,6 @@ input, button, select, textarea {
   -o-border-radius: 50%;
   border-radius: 50%;
 }
-
-.blog-title h2 {}
-
-.blog-title .post-meta {}
-
-.post-meta a, .post-meta span {}
 
 .post-meta .sep {
   color: #777777;
@@ -524,8 +517,6 @@ body.nobg .section1 {
   text-align: left;
 }
 
-.post-wrapper-top .container {}
-
 .breadcrumb>li+li:before {
   color: #798184;
   font-size: 11px;
@@ -615,6 +606,7 @@ body.nobg .section1 {
 #contact fieldset {
   padding: 20px;
   border: 1px solid #eee;
+  border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
 }
@@ -624,6 +616,7 @@ body.nobg .section1 {
   font-weight: bold;
   color: #000;
   border: 1px solid #eee;
+  border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   margin-bottom: 0 !important;
@@ -648,6 +641,7 @@ body.nobg .section1 {
   padding: 3px 10px 3px 35px;
   color: #8a1f11;
   border: 1px solid #FBC2C4;
+  border-radius: 5px;
   -webkit-border-radius: 5px;
 }
 
@@ -721,8 +715,6 @@ body.nobg .section1 {
   padding: 0;
 }
 
-.header-image .site-title a {}
-
 .site-title h4 {
   font-weight: 900;
   color: #2f2f2f;
@@ -794,9 +786,6 @@ body.nobg .section1 {
 
 .credits {
   display: inline-block;
-}
-
-.footer-menu a {
 }
 
 .footer-menu ul {
@@ -1006,7 +995,6 @@ body.nobg .section1 {
   z-index: 90;
   font-size: 14px;
   font-family: 'FontAwesome';
-  speak: none;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -1731,8 +1719,6 @@ button.small, .button.small {
   color: #ffffff;
 }
 
-.no-touch .dm-icon-effect-1 .dm-icon.active {}
-
 .dm-icon-medium {
   width: 80px !important;
   height: 80px !important;
@@ -1778,7 +1764,6 @@ button.small, .button.small {
 }
 
 .dm-icon-medium:before, .dm-icon:before {
-  speak: none;
   line-height: 105px;
   font-style: normal;
   font-weight: normal;
@@ -2572,8 +2557,6 @@ a.readmore {
 #contact {
   padding: 40px 0;
 }
-
-.contact-form {}
 
 .contact-form label {
   color: #999;
