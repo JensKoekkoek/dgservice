@@ -175,22 +175,26 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <button type="submit">Calculate</button>
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit">Calculate</button>
+                        </div>
                     </div>
                 </form>
-                <p id="text1"> </p>
-                <p id="ol1"> </p>
-                <p id="text2"> </p>
-                <p id="ol5"> </p>
-                <p id="ol3"> </p>
-                <p id="ol4"> </p>
-                <strong>
-                    <p id="ol6"> </p>
-                </strong>
-                <strong>
-                    <p id="ol7"> </p>
-                </strong>
-                <p id="o18"> </p>
+                <div class="col-sm-offset-2 col-sm-10">
+                    <p id="text1"> </p>
+                    <p id="ol1"> </p>
+                    <p id="text2"> </p>
+                    <p id="ol5"> </p>
+                    <p id="ol3"> </p>
+                    <p id="ol4"> </p>
+                    <strong>
+                        <p id="ol6"> </p>
+                    </strong>
+                    <strong>
+                        <p id="ol7"> </p>
+                    </strong>
+                    <p id="o18"> </p>
+                </div>
             </center>
         </div>
 
@@ -334,8 +338,7 @@
                 P = 60;
             }
             var i = 0;
-            while ((XS <= XE && document.getElementById("goalTypeSelect").value == "level") || (tokensGained < LE))
-            {
+            while ((XS <= XE && document.getElementById("goalTypeSelect").value == "level") || (tokensGained < LE)) {
                 if (Math.floor((XPtoLVL(XS) + 1) / 2) <= 60)//gets the max floor
                 {
                     MaxF = Math.floor((XPtoLVL(XS) + 1) / 2);
@@ -351,7 +354,7 @@
                         P = Math.max.apply(null, Ticked) + 1;
                     }
                     FloorXP = FFL(Math.max.apply(null, Ticked) + 1, P, XPtoLVL(XS), true);//calls method for calculating floor xp
-                    var tokens = FloorXP/10;
+                    var tokens = FloorXP / 10;
                     tokensGained += tokens
                     if (amountbxp > FloorXP) {
                         xpmult += 1;
@@ -571,7 +574,7 @@
             }
 
             else if (document.getElementById("goalTypeSelect").value == "tokensGained") {
-                document.querySelector("label[for='textboxEnd']").innerHTML = document.querySelector("#textboxEnd").placeholder= "Desired tokens gained";
+                document.querySelector("label[for='textboxEnd']").innerHTML = document.querySelector("#textboxEnd").placeholder = "Desired tokens gained";
             }
         }
 
