@@ -267,6 +267,7 @@
             var m1, m2, m3, m4, c1, c2, c3, c4;
             flc1n = flc1a = flm = fla = flo = flw = flhw = LS = XS = LE = XE = RushNum = P = initial = 0;
             m1 = m2 = m3 = m4 = c1 = c2 = c3 = c4 = 0;
+            var tokensGained = 0;
             Ticked = [0];
             //The prices per floor
             var Cc1n = 230 * 1000;
@@ -332,7 +333,8 @@
             else if (Math.floor((XPtoLVL(XS) + 1) / 2) > 60) {
                 P = 60;
             }
-            for (i = 0; XS <= XE; i++)//does a floor until xp meets the goal
+            var i = 0;
+            while ((XS <= XE && document.getElementById("goalTypeSelect").value == "level") || (tokensGained < LE))
             {
                 if (Math.floor((XPtoLVL(XS) + 1) / 2) <= 60)//gets the max floor
                 {
@@ -349,6 +351,8 @@
                         P = Math.max.apply(null, Ticked) + 1;
                     }
                     FloorXP = FFL(Math.max.apply(null, Ticked) + 1, P, XPtoLVL(XS), true);//calls method for calculating floor xp
+                    var tokens = FloorXP/10;
+                    tokensGained += tokens
                     if (amountbxp > FloorXP) {
                         xpmult += 1;
                         amountbxp -= FloorXP;
@@ -370,6 +374,7 @@
                     P = Math.max.apply(null, Ticked);
                     Ticked = [0];
                 }
+                i++;
             }
 
             function FFL(FNum, PNum, CLvl)//method for calculating floor xp
@@ -552,7 +557,7 @@
             document.getElementById("ol4").innerHTML = "with non-afk rushes:  " + Math.round(wrushcost / 1000000) + "m, @" + Math.round(wrushcost / (XS - initial)) + " gp/xp";
             document.getElementById("ol5").innerHTML = "without rushes:      " + Math.round(worushcost / 1000000) + "m, @" + Math.round(worushcost / (XS - initial)) + " gp/xp";
             document.getElementById("ol6").innerHTML = "xp gained:       " + numberWithCommas(Math.round((XS - initial)));
-            document.getElementById("ol7").innerHTML = "Tokens gained:       " + numberWithCommas(Math.round((XS - initial) / 10));
+            document.getElementById("ol7").innerHTML = "Tokens gained:       " + numberWithCommas(Math.round(tokensGained));
             document.getElementById("o18").innerHTML = "<b>Total in-floor time spent:</b><br/>" + numberWithCommas(Math.round(withNonAFKRushTime / 60)) + " hours with non-AFK rushes<br/> " + numberWithCommas(Math.round(withAFKRushTime / 60)) + " hours with AFK rushes";
 
             document.getElementById("text1").innerHTML = "<b>Floors that will be done:</b>";
