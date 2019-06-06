@@ -123,24 +123,30 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-sm-2">XP cards</div>
+                        <div class="col-sm-2">XP & token cards</div>
                         <div class="col-sm-10">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cardedaba">
                                 <label class="form-check-label" for="cardedaba">
-                                    2.5x abandoned 2
+                                    2.5&times; abandoned 2
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cardedocc">
                                 <label class="form-check-label" for="cardedocc">
-                                    2.5x occult
+                                    2.5&times; occult
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="cardedwarp">
                                 <label class="form-check-label" for="cardedwarp">
-                                    2.5x warped
+                                    2.5&times; warped
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cardedtokens">
+                                <label class="form-check-label" for="cardedtokens">
+                                    2&times; tokens cards
                                 </label>
                             </div>
                             <div class="form-check">
@@ -267,6 +273,12 @@
             var m1, m2, m3, m4, c1, c2, c3, c4;
             flc1n = flc1a = flm = fla = flo = flw = flhw = LS = XS = LE = XE = RushNum = P = initial = 0;
             m1 = m2 = m3 = m4 = c1 = c2 = c3 = c4 = 0;
+            var cardedtokens = document.getElementById("cardedtokens").checked;
+            var cardedaba = document.getElementById("cardedaba").checked;
+            var cardedocc = document.getElementById("cardedocc").checked;
+            var cardedwarp = document.getElementById("cardedocc").checked;
+            var dxp = document.getElementById("dxp").checked;
+            var solo = document.getElementById("cardedTypeSelect") == "1leech";
             var tokensGained = 0;
             Ticked = [0];
             //The prices per floor
@@ -277,6 +289,136 @@
             var Co = 2250 * 1000;
             var Cw = 2750 * 1000;
             var Chw = 3000 * 1000;
+
+            if (!dxp) {
+                if (cardedtokens) {
+                    if (!cardedaba && !cardedocc && !cardedwarp) {
+                        Ca *= 2;
+                        Co *= 2;
+                        Cw *= 2;
+                        Chw *= 2;
+                    } else {
+                        if (cardedaba) {
+                            if (solo) {
+                                Ca *= 6;
+                            } else {
+                                Ca *= 3.5;
+                            }
+                        }
+                        if (cardedocc) {
+                            if (solo) {
+                                Co *= 6;
+                            } else {
+                                Co *= 3.5;
+                            }
+                        }
+                        if (cardedwarp) {
+                            if (solo) {
+                                Cw *= 6;
+                                Chw *= 6;
+                            } else {
+                                Cw *= 3.5;
+                                Chw *= 3.5;
+                            }
+                        }
+                    }
+                } else {
+                    if (!cardedaba && !cardedocc && !cardedwarp) {
+                        Ca *= 1;
+                        Co *= 1;
+                        Cw *= 1;
+                        Chw *= 1;
+                    } else {
+                        if (cardedaba) {
+                            if (solo) {
+                                Ca *= 5;
+                            } else {
+                                Ca *= 2.5;
+                            }
+                        }
+                        if (cardedocc) {
+                            if (solo) {
+                                Co *= 5;
+                            } else {
+                                Co *= 2.5;
+                            }
+                        }
+                        if (cardedwarp) {
+                            if (solo) {
+                                Cw *= 5;
+                                Chw *= 5;
+                            } else {
+                                Cw *= 2.5;
+                                Chw *= 2.5;
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (cardedtokens) {
+                    if (!cardedaba && !cardedocc && !cardedwarp) {
+                        Ca *= 3.5;
+                        Co *= 3.5;
+                        Cw *= 3.5;
+                        Chw *= 3.5;
+                    } else {
+                        if (cardedaba) {
+                            if (solo) {
+                                Ca *= 6.5;
+                            } else {
+                                Ca *= 6.5;
+                            }
+                        }
+                        if (cardedocc) {
+                            if (solo) {
+                                Co *= 6.5;
+                            } else {
+                                Co *= 6.5;
+                            }
+                        }
+                        if (cardedwarp) {
+                            if (solo) {
+                                Cw *= 6.5;
+                                Chw *= 6.5;
+                            } else {
+                                Cw *= 6.5;
+                                Chw *= 6.5;
+                            }
+                        }
+                    }
+                } else {
+                    if (!cardedaba && !cardedocc && !cardedwarp) {
+                        Ca *= 1.5;
+                        Co *= 1.5;
+                        Cw *= 1.5;
+                        Chw *= 1.5;
+                    } else {
+                        if (cardedaba) {
+                            if (solo) {
+                                Ca *= 5.5;
+                            } else {
+                                Ca *= 5.5;
+                            }
+                        }
+                        if (cardedocc) {
+                            if (solo) {
+                                Co *= 5.5;
+                            } else {
+                                Co *= 5.5;
+                            }
+                        }
+                        if (cardedwarp) {
+                            if (solo) {
+                                Cw *= 5.5;
+                                Chw *= 5.5;
+                            } else {
+                                Cw *= 5.5;
+                                Chw *= 5.5;
+                            }
+                        }
+                    }
+                }
+            }
 
             if (document.getElementById("dxp").checked) {
                 Cc1n *= 1.5;
@@ -351,8 +493,6 @@
                         P = Math.max.apply(null, Ticked) + 1;
                     }
                     FloorXP = FFL(Math.max.apply(null, Ticked) + 1, P, XPtoLVL(XS), true);//calls method for calculating floor xp
-                    var tokens = FloorXP/10;
-                    tokensGained += tokens
                     if (amountbxp > FloorXP) {
                         xpmult += 1;
                         amountbxp -= FloorXP;
@@ -471,6 +611,14 @@
                     FFinal *= 2.5;
                 }
                 Ticked.push(FNum);//ticks the floor off
+                var tokens = FFinal/10;
+                if (document.getElementById("outfit").checked) {
+                    tokens *= 1.07;
+                }
+                if (cardedtokens && !Med) {
+                    tokens *= 2;
+                }
+                tokensGained += tokens;
                 return FFinal;
             }
 
@@ -503,46 +651,6 @@
 
             function numberWithCommas(x) {
                 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            }
-
-            if (document.getElementById("cardedaba").checked) {
-                if (document.getElementById("cardedTypeSelect").value == "2leech") {
-                    Ca *= 2.5;
-                }
-                else if (dxp) {
-                    Ca *= 3;
-                }
-
-                else {
-                    Ca *= 5;
-                }
-            }
-
-            if (document.getElementById("cardedocc").checked) {
-                if (document.getElementById("cardedTypeSelect").value == "2leech") {
-                    Co *= 2.5;
-                }
-                else if (dxp) {
-                    Co *= 3;
-                }
-
-                else {
-                    Co *= 5;
-                }
-            }
-
-            if (document.getElementById("cardedwarp").checked) {
-                if (document.getElementById("cardedTypeSelect").value == "2leech") {
-                    Cw *= 2.5;
-                    Chw *= 2.5;
-                }
-                else if (dxp) {
-                    Cw *= 3;
-                    Chw *= 3;
-                } else {
-                    Cw *= 5;
-                    Chw *= 5;
-                }
             }
 
             var wrushcost = RushNum * Cc1n + flm * Cm + fla * Ca + flo * Co + flw * Cw + flhw * Chw;
