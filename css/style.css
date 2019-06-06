@@ -2685,3 +2685,40 @@ section {
 .test:hover .tooltiptext {
     visibility: visible;
 }
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}
+table.table-fit thead th, table.table-fit tfoot th {
+    width: auto !important;
+}
+table.table-fit tbody td, table.table-fit tfoot td {
+    width: auto !important;
+}
+
+.table > tbody > tr > td {
+     vertical-align: middle;
+     text-align: center;
+}
+
+.table > thead > tr > th {
+     vertical-align: middle;
+     text-align: center;
+}
+
+.table > tbody > tr > td > img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.centered { vertical-align:middle; text-align:center; margin-left:25%; margin-right:25%;}
+.centered img { display:block; margin:0 auto;}
