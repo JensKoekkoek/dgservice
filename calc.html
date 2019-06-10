@@ -281,7 +281,7 @@
             var cardedtokens = document.getElementById("cardedtokens").checked;
             var cardedaba = document.getElementById("cardedaba").checked;
             var cardedocc = document.getElementById("cardedocc").checked;
-            var cardedwarp = document.getElementById("cardedocc").checked;
+            var cardedwarp = document.getElementById("cardedwarp").checked;
             var dxp = document.getElementById("dxp").checked;
             var solo = document.getElementById("cardedTypeSelect").value == "1leech";
             var tokensGained = 0;
@@ -400,39 +400,32 @@
                     } else {
                         if (cardedaba) {
                             if (solo) {
-                                Ca *= 5.5;
+                                Ca *= 4.5;
                             } else {
-                                Ca *= 5.5;
+                                Ca *= 4.5;
                             }
                         }
                         if (cardedocc) {
                             if (solo) {
-                                Co *= 5.5;
+                                Co *= 4.5;
                             } else {
-                                Co *= 5.5;
+                                Co *= 4.5;
                             }
                         }
                         if (cardedwarp) {
                             if (solo) {
-                                Cw *= 5.5;
-                                Chw *= 5.5;
+                                Cw *= 4.5;
+                                Chw *= 4.5;
                             } else {
-                                Cw *= 5.5;
-                                Chw *= 5.5;
+                                Cw *= 4.5;
+                                Chw *= 4.5;
                             }
                         }
                     }
+                    Cc1n *= 1.5;
+                    Cc1a *= 1.5;
+                    Cm *= 1.5;
                 }
-            }
-
-            if (document.getElementById("dxp").checked) {
-                Cc1n *= 1.5;
-                Cc1a *= 1.5;
-                Cm *= 1.5;
-                Ca *= 1.5;
-                Co *= 1.5;
-                Cw *= 1.5;
-                Chw *= 1.5;
             }
 
             var c1nTime = 2;
