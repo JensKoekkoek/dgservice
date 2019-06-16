@@ -139,9 +139,9 @@ $("#board").on("mousedown", "td", function (e) {
     var x = $td.data("x"), y = $td.data("y");
 
     if (e.button === 0) {
-        flip(x, y);
-    } else if (e.button === 2) {
         touch(x, y);
+    } else if (e.button === 2) {
+        flip(x, y);
     }
 
     updateSolvable();
