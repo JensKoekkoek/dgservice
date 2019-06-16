@@ -39,8 +39,10 @@ function flip(x, y) {
     }
 }
 
-function touch(x, y) {
-    $squares[y][x].toggleClass("one");
+function touch(x, y, mark = true) {
+    if (mark)
+        $squares[y][x].toggleClass("one");
+
     offsets.forEach(function (offset) {
         var xi = x + offset[0], yi = y + offset[1];
         if (isInRange(xi) && isInRange(yi)) {
@@ -119,6 +121,16 @@ function updateSolvable() {
     $("#solve").text(solvable ? "Solve" : "Unsolvable");
 }
 
+function reset() {
+    for (var y = 0; y < N; y++) {
+        for (var x = 0; x < N; x++) {
+            vector[y][x] = 0;
+            $squares[y][x].removeClass("on").removeClass("one");
+        }
+    }
+    updateSolvable();
+}
+
 init();
 
 $("#board").on("mousedown", "td", function (e) {
@@ -162,10 +174,16 @@ $("#unsolve").click(function () {
 });
 
 $("#reset").click(function () {
+    reset();
+});
+
+$("#randomize").click(function () {
+    reset();
     for (var y = 0; y < N; y++) {
         for (var x = 0; x < N; x++) {
-            vector[y][x] = 0;
-            $squares[y][x].removeClass("on").removeClass("one");
+            if (Math.random() < 0.5){
+                touch(x, y, false);
+            }
         }
     }
     updateSolvable();
