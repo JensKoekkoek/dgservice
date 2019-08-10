@@ -2702,6 +2702,11 @@ table.table-fit tbody td, table.table-fit tfoot td {
      text-align: center;
 }
 
+.promo-table > tbody > tr > td{
+    vertical-align: middle !important;
+    text-align: left !important;
+}
+
 .table > thead > tr > th {
      vertical-align: middle;
      text-align: center;
