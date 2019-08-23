@@ -127,30 +127,30 @@
                         <div class="col-sm-2">XP & token cards</div>
                         <div class="col-sm-8">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cardedaba">
+                                <input class="form-check-input" type="checkbox" id="cardedaba" onclick="toggleAmountCarded()">
                                 <label class="form-check-label" for="cardedaba">
                                     2.5&times; abandoned 2
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cardedocc">
+                                <input class="form-check-input" type="checkbox" id="cardedocc" onclick="toggleAmountCarded()">
                                 <label class="form-check-label" for="cardedocc">
                                     2.5&times; occult
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cardedwarp">
+                                <input class="form-check-input" type="checkbox" id="cardedwarp" onclick="toggleAmountCarded()">
                                 <label class="form-check-label" for="cardedwarp">
                                     2.5&times; warped
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="cardedtokens">
+                                <input class="form-check-input" type="checkbox" id="cardedtokens" onclick="toggleAmountCarded()">
                                 <label class="form-check-label" for="cardedtokens">
                                     2&times; tokens
                                 </label>
                             </div>
-                            <div class="form-check">
+                            <div class="form-check" id="amtCarded" hidden="hidden">
                                 <select id="cardedTypeSelect">
                                     <option value="1leech">1 leech</option>
                                     <option value="2leech" selected>2-3 leeches</option>
@@ -687,6 +687,18 @@
         $(() => {
             document.querySelector("#calcForm").addEventListener("submit", e => { e.preventDefault(); Calcu(); });
         });
+
+        function toggleAmountCarded() {
+            var cardedtokens = document.getElementById("cardedtokens").checked;
+            var cardedaba = document.getElementById("cardedaba").checked;
+            var cardedocc = document.getElementById("cardedocc").checked;
+            var cardedwarp = document.getElementById("cardedwarp").checked;
+            if (!cardedaba && !cardedtokens && !cardedocc && !cardedwarp) {
+                document.getElementById("amtCarded").hidden = true;
+            } else {
+                document.getElementById("amtCarded").hidden = false;
+            }
+        }
     </script>
 </body>
 
