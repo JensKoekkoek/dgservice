@@ -179,6 +179,12 @@
                                     Warped Gorajan trailblazer outfit?
                                 </label>
                             </div>
+                                                        <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="ava">
+                                <label class="form-check-label" for="ava">
+                                    6% Clan avatar boost
+                                </label>
+                            </div>
                         </div>
 
                     </div>
@@ -286,6 +292,7 @@
             var cardedwarp = document.getElementById("cardedwarp").checked;
             var dxp = document.getElementById("dxp").checked;
             var solo = document.getElementById("cardedTypeSelect").value == "1leech";
+            var ava = document.getElementById("ava").checked;
             var tokensGained = 0;
             Ticked = [0];
             //The prices per floor
@@ -466,6 +473,10 @@
 
             if (document.getElementById("outfit").checked == true) {
                 xpmult = xpmult + 0.07;
+            }
+
+            if (ava) {
+                xpmult = xpmult + 0.06;
             }
 
             if (Math.floor((XPtoLVL(XS) + 1) / 2) <= 60)//gets previous progress number for prestige
