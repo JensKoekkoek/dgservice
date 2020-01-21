@@ -74,6 +74,7 @@ img {
 
 .sc {
     font-variant: small-caps;
+    text-align: center;
 }
 
 .clear {
@@ -154,10 +155,6 @@ ul, ol, dl {
 ul, ol, dl {
     margin-bottom: 1.25em;
     font-family: inherit;
-}
-
-ul, ol {
-    margin-left: 0;
 }
 
 ul.no-bullet, ol.no-bullet {
