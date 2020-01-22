@@ -199,6 +199,10 @@ section::before, section::after {
     margin-right: 0
 }
 
+.strong {
+    font-weight: bold;
+}
+
 /*Bootstrap Modifications*/
 
 .nav-tabs>li>a {
