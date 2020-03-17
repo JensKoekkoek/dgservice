@@ -45,7 +45,8 @@ const defaults: Record<string, any> = {
     godMode: true,
     allowMultipleInEdges: false,
     graph: "custom",
-    code: ""
+    code: "",
+    drawDistance: 3
 }
 
 const MyApp = Vue.extend({
@@ -56,7 +57,8 @@ const MyApp = Vue.extend({
             graph: u.get("graph") || "mobius",
             code: u.get("code") || defaults.code as string,
             rooms: [] as Room[],
-            invalidCodeFeedback: ""
+            invalidCodeFeedback: "",
+            drawDistance: u.get("drawDistance") || defaults.drawDistance
         };
     }
 })
@@ -81,28 +83,31 @@ const vm = new MyApp({
         code: function () {
             customCodeInput.setCustomValidity("");
             codeForm.classList.remove("was-validated");
+        },
+        drawDistance: function (value) {
+            ui.setDrawDistance(value);
+            ui.render();
+            updateHistoryState();
         }
     }
 });
 
 const mainCanvas = document.querySelector("#mainCanvas") as HTMLCanvasElement;
-const context = mainCanvas.getContext("2d");
+const context = mainCanvas.getContext("2d") as CanvasRenderingContext2D;
 const codeForm = document.querySelector("#codeForm") as HTMLFormElement;
-const customCodeInput = <HTMLInputElement>document.querySelector("#customCode");
+const customCodeInput = document.querySelector("#customCode") as HTMLInputElement;
 const codeSubmit = document.querySelector("#codeSubmit") as HTMLButtonElement;
+const container = document.querySelector("#app") as HTMLDivElement;
 
-let roomOuterSize = 100;
-let edgeLength = 16;
-let roomInnerSize = roomOuterSize - edgeLength;
-let roomView: RoomView;
-let moveMapping: Record<string, Dir> = { ArrowLeft: Dir.W, ArrowRight: Dir.E, ArrowUp: Dir.N, ArrowDown: Dir.S };
-let turnMapping: Record<string, Permutation> = {
+mainCanvas.width = mainCanvas.height = Math.min(innerWidth - 20, innerHeight- 200);
+
+const ui = new GraphUI(context, vm.drawDistance);
+
+const moveMapping: Record<string, Dir> = { ArrowLeft: Dir.W, ArrowRight: Dir.E, ArrowUp: Dir.N, ArrowDown: Dir.S };
+const turnMapping: Record<string, Permutation> = {
     ArrowLeft: rotateCounterclockwise,
     ArrowRight: rotateClockwise
 };
-
-let centerX = mainCanvas.width / 2;
-let centerY = mainCanvas.height / 2;
 
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
@@ -111,75 +116,6 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
-}
-
-function toClientCoords({ x, y }: Point) {
-    let centerX = mainCanvas.width / 2;
-    let centerY = mainCanvas.height / 2;
-    return pt(centerX + x * roomOuterSize, centerY + y * roomOuterSize);
-}
-
-function toGameCoords({ x, y }: Point) {
-    let centerX = mainCanvas.width / 2;
-    let centerY = mainCanvas.height / 2;
-    return pt((x - centerX) / roomOuterSize, (y - centerY) / roomOuterSize);
-}
-
-function drawRoom(location: Point, roomView: RoomView | null) {
-    if (roomView != null)
-        roomView.draw(context, location);
-}
-
-function renderCorner(a: Dir, b: Dir) {
-    let ra = roomView.to(a);
-    let rb = roomView.to(b);
-    let oa = Dir.toPoint(a);
-    let ob = Dir.toPoint(b);
-    let o = Point.add(oa, ob);
-    let x = centerX + (oa.x + ob.x) * roomOuterSize;
-    let y = centerY + (oa.y + ob.y) * roomOuterSize;
-    if (ra == null && rb != null && rb.visited()) {
-        drawRoom(o, rb.to(a));
-    } else if (rb == null && ra != null && ra.visited()) {
-        drawRoom(o, ra.to(b));
-    } else if (ra != null && rb != null && ra.visited() && rb.visited()) {
-        let corner1 = ra.to(b), corner2 = rb.to(a);
-
-        // Needs to be a commutative diagram!
-        if (corner1 != null && corner2 != null && corner1.equals(corner2)) {
-            drawRoom(o, corner1);
-        }
-    }
-}
-
-function render() {
-    if (mainCanvas != null && context != null) {
-        context.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
-        for (let i = 0; i < 4; i++) {
-            let x = roomView.to(i);
-            if (x == null)
-                continue;
-            let o = Dir.toPoint(i);
-            drawRoom(o, x);
-        }
-        renderCorner(Dir.E, Dir.N);
-        renderCorner(Dir.W, Dir.N);
-        renderCorner(Dir.E, Dir.S);
-        renderCorner(Dir.W, Dir.S);
-        drawRoom(pt(0, 0), roomView);
-    }
-
-    let leftToFind = vm.rooms.filter(r => !r.visited);
-    // statusSpan!.innerText = leftToFind.length === 0 ? "Congratulations! You won!" : `${leftToFind.length} rooms left to find: ${leftToFind.join(", ")}`;
-}
-
-function movePlayer(dir: Dir) {
-    let neighbor = roomView.to(dir);
-    if (neighbor != null) {
-        roomView = neighbor;
-        roomView.setVisited(true);
-    }
-    render();
 }
 
 function reset2(numRooms: number, connections: MyConnection[]) {
@@ -193,20 +129,19 @@ function reset2(numRooms: number, connections: MyConnection[]) {
             throw r.error;
         }
     }
-    roomView = new RoomView(vm.rooms[0]);
-    roomView.setVisited(true);
-    render();
+    ui.reset(new RoomView(vm.rooms[0]));
+    ui.render();
 }
 
 function resetWithCode(str: string) {
     vm.rooms = [new Room(1, true)];
     let cList = Connection.parseMany(str, vm.rooms);
     Connection.execute(cList);
-    roomView = new RoomView(vm.rooms[0]);
+    ui.reset(new RoomView(vm.rooms[0]));
     if (vm.godMode) {
         vm.rooms.forEach(r => r.visited = true);
     }
-    render();
+    ui.render();
 }
 
 function resetToMobiusStrip(width = 10, height = 3) {
@@ -274,9 +209,8 @@ function resetToWeirdGraph() {
             vm.rooms[r].connectByTransitionFunction({ dir: i, other: vm.rooms[j++], allowMultipleInEdges: vm.allowMultipleInEdges });
         }
     }
-    roomView = new RoomView(vm.rooms[0]);
-    roomView.setVisited(true);
-    render();
+    ui.reset(new RoomView(vm.rooms[0]));
+    ui.render();
 }
 
 function resetToMobiusStrip2(size = 4) {
@@ -312,9 +246,8 @@ function resetRandom() {
             vm.rooms[r].connectByTransitionFunction({ dir: i, other, allowMultipleInEdges: vm.allowMultipleInEdges });
         }
     }
-    roomView = new RoomView(vm.rooms[0]);
-    roomView.setVisited(true);
-    render();
+    ui.reset(new RoomView(vm.rooms[0]));
+    ui.render();
 }
 
 function resetCustom() {
@@ -372,7 +305,8 @@ function updateHistoryState(replace = true) {
         godMode: vm.godMode,
         allowMultipleInEdges: vm.allowMultipleInEdges,
         graph: vm.graph,
-        code: vm.code
+        code: vm.code,
+        drawDistance: vm.drawDistance
     };
     let params = new URLSearchParams(state);
     for (let key in state) {
@@ -397,34 +331,6 @@ document.querySelector("#codeForm")!.addEventListener("submit", () => {
     codeForm.classList.add("was-validated");
 });
 
-mainCanvas.addEventListener("mousedown", (e) => {
-    if (e.button === 0) {
-        e.preventDefault();
-        mainCanvas.focus();
-        let c = pt(e.offsetX, e.offsetY);
-        let p = toGameCoords(c);
-        let pf = pt(Math.round(p.x), Math.round(p.y));
-        let dir = Dir.fromPoint(pf);
-        if (dir >= 0) {
-            movePlayer(dir);
-        }
-    }
-});
-
-document.addEventListener("keydown", e => {
-    if (!e.shiftKey && e.key in moveMapping) {
-        if (e.target !== customCodeInput)
-            e.preventDefault();
-        let dir = moveMapping[e.key];
-        movePlayer(dir);
-    } else if (e.shiftKey && e.key in turnMapping) {
-        if (e.target !== customCodeInput)
-            e.preventDefault();
-        roomView.transform = roomView.transform.compose(turnMapping[e.key]);
-        render();
-    }
-});
-
 addEventListener("popstate", e => {
     let state = e.state ?? defaults;
     vm.godMode = state.godMode;
@@ -437,4 +343,5 @@ addEventListener("popstate", e => {
 if (vm.code != "") {
     vm.graph = "custom";
 }
+
 setGraph();

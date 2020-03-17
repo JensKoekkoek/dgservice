@@ -38,10 +38,17 @@
                 Allow multiple in-edges (creates weird non-manifolds)
             </label>
         </div>
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="drawDistance">Draw distance:</label>
+                <input type="number" class="form-control mx-sm-3" id="drawDistance" v-model="drawDistance" min="0" max="15">
+            </div>
+        </div>
         <label for="graphSelect">Choose graph type:</label>
         <div class="form-group">
             <select class="form-control" name="graphSelect" id="graphSelect" v-model="graph">
-                <option value="K5" data-code="1e2 2e3 3e4 4e5 5e1 1n3 2n4 3n5 4n1 5n2">Complete graph of order 5</option>
+                <option value="K5" data-code="1e2 2e3 3e4 4e5 5e1 1n3 2n4 3n5 4n1 5n2">Complete graph of order 5
+                </option>
                 <option value="octahedron" data-code="1w2 1n3 1e4 1s5 6w2w 6s3 6e4e 6n5 2n3w 3e4n 4s5e 5w2s">Vertices of
                     octahedron / faces of cube</option>
                 <option value="flatcube" data-code="1n2 2e3 3s4 4w1 5e6 6s7 7w8 8n5 1w6 2n7 3e8 4s5">Flat cube vertices
@@ -86,8 +93,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
         integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script src="js/Room.js"></script>
+    <script src="js/GraphUI.js"></script>
     <script src="js/main.js"></script>
 </body>
 

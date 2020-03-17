@@ -6,6 +6,8 @@ const NUM_DIRS = 4;
 
 namespace Dir {
     export function flip(dir: Dir) { return (dir + 2) % 4; }
+    export function rotateClockwise(dir: Dir) { return (dir + 1) % 4; }
+    export function rotateCounterclockwise(dir: Dir) { return (dir + 3) % 4; }
 
     export function toPoint(dir: Dir) {
         switch (dir) {
@@ -43,6 +45,7 @@ class Point {
 
     static equals(left: Point, right: Point) { return left.x === right.x && left.y === right.y };
     static add({ x: x1, y: y1 }: Point, { x: x2, y: y2 }: Point) { return pt(x1 + x2, y1 + y2); }
+    static addDir(p: Point, dir: Dir) { return this.add(p, Dir.toPoint(dir)); }
     static scale({ x, y }: Point, f: number) { return pt(x * f, y * f); }
     static str({ x, y }: Point) { return `(${x}, ${y})`; }
 }
@@ -89,7 +92,10 @@ const rotateCounterclockwise = new Permutation([Dir.S, Dir.W, Dir.N, Dir.E]);
 const rotate180 = new Permutation([Dir.E, Dir.S, Dir.W, Dir.N]);
 
 class Room {
-    static colors = ["black", "blue", "green", "red", "#7f00ff", "maroon", "turquoise", "black", "gray"];
+    static colors = [
+        "black", "blue", "green", "red", "#7f00ff", "maroon", "turquoise", "black", "gray",
+        "gold"
+    ];
 
     constructor(public id: number, public visited = false) {
         this.color = id >= Room.colors.length ? "black" : Room.colors[id];
@@ -151,6 +157,7 @@ class Room {
     }
 }
 
+/** Represents a room with a transformation. */
 class RoomView {
     constructor(public room: Room, public transform = new Permutation()) { }
 
@@ -170,57 +177,80 @@ class RoomView {
     visited() { return this.room.visited; }
     setVisited(value: boolean) { this.room.visited = value; }
 
-    equals(other: RoomView) {
-        return this.room === other.room && this.transform.equals(other.transform);
+    equals(other: RoomView | undefined) {
+        return other != null && this.room === other.room && this.transform.equals(other.transform);
     }
 
-    drawEdge(context: CanvasRenderingContext2D | null, { x, y }: Point, dir: Dir) {
-        if (context == null)
-            return;
-        let c = toClientCoords({ x, y });
-        let p0 = Point.add(c, Point.scale(Dir.toPoint(dir), roomInnerSize / 2));
-        let p1 = Point.add(p0, Point.scale(Dir.toPoint(dir), edgeLength));
-        context.strokeStyle = "black";
-        context.lineWidth = 1;
-        context.beginPath();
-        context.moveTo(p0.x, p0.y);
-        context.lineTo(p1.x, p1.y);
-        context.stroke();
+    // drawEdge(ui: GraphUI, { x, y }: Point, dir: Dir) {
+    //     let ctx = ui.context;
+
+    //     let c = ui.toClientCoords({ x, y });
+    //     let p0 = Point.add(c, Point.scale(Dir.toPoint(dir), ui.roomInnerSize / 2));
+    //     let p1 = Point.add(p0, Point.scale(Dir.toPoint(dir), ui.edgeLength));
+    //     ctx.strokeStyle = "black";
+    //     ctx.lineWidth = 1;
+    //     ctx.beginPath();
+    //     ctx.moveTo(p0.x, p0.y);
+    //     ctx.lineTo(p1.x, p1.y);
+    //     ctx.stroke();
+    // }
+
+    drawWall(ui: GraphUI, { x, y }: Point, dir: Dir) {
+        let ctx = ui.context;
+
+        let c = ui.toClientCoords({ x, y });
+        let p0 = Point.add(c, Point.scale(Dir.toPoint(dir), ui.roomInnerSize / 2));
+        let p1 = Point.add(p0, Point.scale(Dir.toPoint(Dir.rotateClockwise(dir)), ui.roomInnerSize / 2));
+        let p2 = Point.add(p0, Point.scale(Dir.toPoint(Dir.rotateCounterclockwise(dir)), ui.roomInnerSize / 2));
+        ctx.strokeStyle = ui.wallColor;
+        ctx.lineWidth = ui.wallWidth;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
     }
 
-    draw(context: CanvasRenderingContext2D | null, { x, y }: Point) {
-        if (context != null) {
-            context.font = "36px sans-serif";
-            let text = this.visited() ? this.id().toString() : "?";
-            let color = this.visited() ? this.getColor() : "#aaa";
-            let c = toClientCoords({ x, y });
+    draw(ui: GraphUI, { x, y }: Point, parentDir: Dir) {
+        let c = ui.toClientCoords({ x, y });
+        let ctx = ui.context;
 
-            context.textAlign = "center";
-            context.textBaseline = "middle";
-            context.fillStyle = color;
-            context.strokeStyle = color;
-            context.lineWidth = x === 0 && y === 0 ? 10 : 2;
+        let text = this.visited() ? this.id().toString() : "?";
+        let color = this.visited() ? this.getColor() : ui.unvisitedRoomTextColor;
 
-            // Transform
-            context.save();
-            if (this.visited()) {
-                let mat = this.transform.inverse().toMatrix();
-                context.translate(c.x, c.y);
-                context.transform(mat.a, mat.b, mat.c, mat.d, 0, 0);
-                context.translate(-c.x, -c.y);
+        ctx.fillStyle = this.visited() ? ui.roomColor : ui.unvisitedRoomColor;
+        ctx.strokeStyle = this.visited() ? ui.roomOutlineColor : ui.unvisitedRoomOutlineColor;
+
+        ctx.save();
+        // Rotate the room unless it's a question mark.
+        if (this.visited()) {
+            let mat = this.transform.inverse().toMatrix();
+            ctx.translate(c.x, c.y);
+            ctx.transform(mat.a, mat.b, mat.c, mat.d, 0, 0);
+            ctx.translate(-c.x, -c.y);
+        }
+        ctx.lineWidth = 1;
+        ctx.fillRect(c.x - ui.roomInnerSize / 2, c.y - ui.roomInnerSize / 2, ui.roomInnerSize, ui.roomInnerSize);
+        ctx.strokeRect(c.x - ui.roomInnerSize / 2, c.y - ui.roomInnerSize / 2, ui.roomInnerSize, ui.roomInnerSize);
+        ctx.fillStyle = color;
+        ctx.fillText(text, c.x, c.y);
+        ctx.restore();
+
+        // Draw edges
+        for (let d = 0; d < 4; d++) {
+            if (this.to(d) == null) {
+                this.drawWall(ui, { x, y }, d);
             }
-            context.strokeRect(c.x - roomInnerSize / 2, c.y - roomInnerSize / 2, roomInnerSize, roomInnerSize);
-            context.fillText(text, c.x, c.y);
-            context.restore();
+        }
 
-            if (this.visited()) {
-                // Draw edges
-                for (let i = 0; i < 4; i++) {
-                    if (this.to(i) != null) {
-                        this.drawEdge(context, { x, y }, i);
-                    }
-                }
-            }
+        // Draw player, transformed relative to this.
+        if (ui.roomView.room === this.room) {
+            ctx.save();
+            let mat = this.transform.inverse().compose(ui.roomView.transform).toMatrix();
+            ctx.translate(c.x, c.y);
+            ctx.transform(mat.a, mat.b, mat.c, mat.d, 0, 0);
+            ctx.translate(-c.x, -c.y);
+            ctx.drawImage(ui.playerImage, c.x - ui.roomInnerSize / 4, c.y - ui.roomInnerSize / 4);
+            ctx.restore();
         }
     }
 }
