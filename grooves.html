@@ -30,10 +30,6 @@
             background-color: #ffff80;
         }
 
-        .complete::after {
-            content: url("img/icon-tick.png");
-        }
-
         #grooves div {
             vertical-align: middle;
         }
@@ -95,7 +91,6 @@
 
         function advanceRow() {
             let y = activeRow++;
-            rowDivs[y].classList.add("complete");
             if (activeRow === NUM_ROWS) {
                 // Append to history
                 let numFails = 0;
